@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FiUpload } from 'react-icons/fi';
+import axios from 'axios';
 
 const AddProduct = ({ darkMode }) => {
   const [formData, setFormData] = useState({
@@ -27,11 +28,44 @@ const AddProduct = ({ darkMode }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Product added:", formData);
-    // Here you would typically send the data to your backend
-    alert("Product added successfully!");
+  
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const form = new FormData();
+    form.append('name', formData.name);
+    form.append('category', formData.category);
+    form.append('available', formData.available);
+    form.append('price', formData.price);
+    form.append('per', formData.per);
+    form.append('description', formData.description);
+    if (formData.image) {
+      form.append('image', formData.image);
+    }
+
+    // 1️⃣ Upload image first
+    let imagePath = '';
+    if (formData.image) {
+      const uploadRes = await axios.post('http://localhost:3000/api/upload', form, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      imagePath = uploadRes.data.imagePath;
+    }
+
+    // 2️⃣ Then send product info
+    const productData = {
+      name: formData.name,
+      category: formData.category,
+      available: formData.available,
+      price: formData.price,
+      per: formData.per,
+      description: formData.description,
+      image: imagePath
+    };
+
+    await axios.post('http://localhost:3000/api/products', productData);
+    alert("✅ Product added!");
     setFormData({
       name: "",
       category: "",
@@ -41,7 +75,11 @@ const AddProduct = ({ darkMode }) => {
       description: "",
       image: null,
     });
-  };
+  } catch (err) {
+    console.error("❌ Error adding product:", err);
+    alert("Error adding product");
+  }
+};
 
   return (
     <div className={`p-6 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-white'}`}>
