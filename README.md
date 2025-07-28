@@ -17,7 +17,7 @@ Empowering smallholder farmers with **direct market access**, **transparent pric
 |------|------|---------|  
 | Founder & CEO | Yasin Kedir | [@YasinKedir](https://github.com/YasinKedir) |  
 | Web Developer | Zahara Mustefa | [@ZahraMustefa](https://github.com/turab202) |  
-| Mobile Developer | [Hanifa Seid] | [@HanifaSeid](https://github.com/Hanifaseid) |  
+| Web Developer | [Hanifa Seid] | [@HanifaSeid](https://github.com/Hanifaseid) |  
 
 *(All contributors are registered Fayda Hackathon participants.)*  
 
