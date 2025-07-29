@@ -1,14 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
 
-const initialProducts = [
-  { id: 1, name: "Wheat", category: "Grains", available: 50, price: 1200, per: "quintal", description: "High quality wheat from local farms" },
-  { id: 2, name: "Teff", category: "Grains", available: 20, price: 3500, per: "kg", description: "Organic teff grain" },
-  { id: 3, name: "Onion", category: "Vegetables", available: 100, price: 45, per: "kg", description: "Fresh red onions" },
-];
-
 const MyProducts = ({ darkMode }) => {
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({
     name: "",
@@ -19,20 +14,31 @@ const MyProducts = ({ darkMode }) => {
     description: "",
   });
 
-  const handleDelete = (id) => {
-    setProducts(products.filter(product => product.id !== id));
+  // Fetch products from backend
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get('http://localhost:3000/api/products');
+        setProducts(res.data);
+      } catch (err) {
+        console.error('Fetch error:', err);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/products/${id}`);
+      setProducts(products.filter(p => p._id !== id));
+    } catch (err) {
+      console.error('Delete failed:', err);
+    }
   };
 
   const handleEdit = (product) => {
-    setEditingId(product.id);
-    setEditForm({
-      name: product.name,
-      category: product.category,
-      available: product.available,
-      price: product.price,
-      per: product.per,
-      description: product.description,
-    });
+    setEditingId(product._id);
+    setEditForm({ ...product });
   };
 
   const handleEditChange = (e) => {
@@ -43,13 +49,17 @@ const MyProducts = ({ darkMode }) => {
     }));
   };
 
-  const handleEditSubmit = (e) => {
+  const handleEditSubmit = async (e) => {
     e.preventDefault();
-    setProducts(products.map(product => 
-      product.id === editingId ? { ...product, ...editForm } : product
-    ));
-    setEditingId(null);
+    try {
+      const res = await axios.put(`http://localhost:3000/api/products/${editingId}`, editForm);
+      setProducts(products.map(p => (p._id === editingId ? res.data : p)));
+      setEditingId(null);
+    } catch (err) {
+      console.error('Update failed:', err);
+    }
   };
+
 
   return (
     <div className={`p-4 sm:p-6 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-white'}`}>
@@ -79,8 +89,8 @@ const MyProducts = ({ darkMode }) => {
           </thead>
           <tbody className={`divide-y ${darkMode ? 'divide-gray-600 bg-gray-700' : 'divide-gray-200 bg-white font-semibold'}`}>
             {products.map(product => (
-              <tr key={product.id} className={`${darkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-50'}`}>
-                {editingId === product.id ? (
+              <tr key={product._id} className={`${darkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-50'}`}>
+                {editingId === product._id ? (
                   <>
                     <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                       <input
@@ -215,7 +225,7 @@ const MyProducts = ({ darkMode }) => {
                         <FiEdit className="inline" />
                       </button>
                       <button
-                        onClick={() => handleDelete(product.id)}
+                        onClick={() => handleDelete(product._id)}
                         className={`${darkMode ? 'text-red-400 hover:text-red-300' : 'text-red-600 hover:text-red-800'} cursor-pointer`}
                       >
                         <FiTrash2 className="inline" />
