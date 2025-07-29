@@ -10,7 +10,7 @@ import {
 
 const Sidebar = ({ sidebarOpen, darkMode }) => {
   const navItems = [
-    { path: "/", icon: <FiHome />, label: "Home" },
+    { path: "/home", icon: <FiHome />, label: "Home" },
     { path: "/orders", icon: <FiShoppingBag />, label: "Orders" },
     { path: "/add-product", icon: <FiPlusCircle />, label: "Add Product" },
     { path: "/my-products", icon: <FiPackage />, label: "My Products" },
@@ -24,11 +24,11 @@ const Sidebar = ({ sidebarOpen, darkMode }) => {
       ${sidebarOpen ? 'w-64' : 'w-20'} 
       p-4 rounded-lg transition-all duration-300
       ${darkMode ? 'bg-gray-700 text-gray-100' : 'bg-white text-gray-800'}
+      hidden md:block
     `}>
-      {/* Company name added here */}
       <div className={`mb-6 p-3 rounded-lg ${darkMode ? 'bg-gray-600' : 'bg-gray-100'} text-center`}>
         <h1 className={`text-xl font-bold ${darkMode ? 'text-gray-300' : 'text-gray-800'}`}>
-          {sidebarOpen ? 'AgriMarket' : 'AM'}
+          {sidebarOpen ? 'Gebere-Link' : 'AM'}
         </h1>
       </div>
       
