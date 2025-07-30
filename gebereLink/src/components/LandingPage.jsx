@@ -24,7 +24,6 @@ import { BsArrowRight } from 'react-icons/bs';
 
 // Import images
 import LogoImage from '../assets/logo3.png';
-// import FarmerImage from '../assets/farmer3.png';
 import HeroImage from '../assets/hero1.jpg';
 import EconomyImage from '../assets/economy.jpg';
 import TrackterImage from '../assets/tracker.jpg';
@@ -33,6 +32,12 @@ import TransparencyImage from '../assets/transparency.jpg';
 const LandingPage = ({ darkMode }) => {
   const [activeFAQ, setActiveFAQ] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [submitStatus, setSubmitStatus] = useState(null);
   const navigate = useNavigate();
 
   // Features data
@@ -45,7 +50,7 @@ const LandingPage = ({ darkMode }) => {
     {
       icon: <FaChartLine className="text-4xl text-green-600" />,
       title: "በቀጥታ የገበያ መረጃ",
-      description: "የዋጋ እና የፍላጎት አዝማሚያዎችን በቀጥታ ማወቅ በጥቅም ላይ �ለውን ውሳኔ ያስችላል።"
+      description: "የዋጋ እና የፍላጎት አዝማሚያዎችን በቀጥታ ማወቅ በጥቅም ላይ ያለውን ውሳኔ ያስችላል።"
     },
     {
       icon: <FaTruck className="text-4xl text-green-600" />,
@@ -133,6 +138,39 @@ const LandingPage = ({ darkMode }) => {
     navigate('/login');
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitStatus('submitting');
+    
+    try {
+      const response = await fetch("https://formspree.io/f/xzzvvpbk", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      console.error('Error submitting form:', error);
+    }
+  };
+
   return (
     <div className="font-sans bg-white">
       {/* Navbar */}
@@ -142,7 +180,7 @@ const LandingPage = ({ darkMode }) => {
         transition={{ type: 'spring', stiffness: 100 }}
         className="fixed w-full z-50 bg-white/80 backdrop-blur-md shadow-sm"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py- flex justify-between items-center">
           <motion.div
             initial={{ scale: 0.9 }}
             animate={{ scale: 1.0 }}
@@ -192,6 +230,7 @@ const LandingPage = ({ darkMode }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              onClick={handleGetStarted}
             >
               ይመዝገቡ
             </motion.button>
@@ -477,11 +516,12 @@ const LandingPage = ({ darkMode }) => {
           >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               <span className="bg-gradient-to-r from-green-600 to-green-400 bg-clip-text text-transparent">
-                ቀለል ያለ የምርት �ይዘት
+              ቀለል ያለ የምርት አቀራረብ
+
               </span>
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              የእኛ ፕላትፎርም ባህላዊውን የምርት ሰይዘት በመቀየር ከግብርና �ቦታ እስከ ጠረጴዛ ያለውን ጉዞ ያቃልላል።
+              የእኛ ፕላትፎርም ባህላዊውን የምርት አቅርቦት ስርዓት በመቀየር፣ ምርት ከእርሻው እስከ ገበታ የሚደርስበትን ጉዞ ያቀላጥፋል።
             </p>
           </motion.div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -498,7 +538,7 @@ const LandingPage = ({ darkMode }) => {
                   className="rounded-lg shadow-lg w-full"
                 />
                 <div className="absolute -bottom-4 -right-4 bg-red-100 text-red-800 px-4 py-2 rounded-lg shadow-md">
-                  ባህላዊ ሰይዘት
+                  ባህላዊ ይዘት
                 </div>
               </div>
             </motion.div>
@@ -518,6 +558,7 @@ const LandingPage = ({ darkMode }) => {
       </section>
 
       {/* Mobile App Section */}
+      {/* Mobile App Section */}
       <section id="mobile" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -529,11 +570,11 @@ const LandingPage = ({ darkMode }) => {
           >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               <span className="bg-gradient-to-r from-green-600 to-green-400 bg-clip-text text-transparent">
-                Gebre-Link ሞባይል መተግበሪያ
+                Gebre-Link �ሞባይል መተግበሪያ
               </span>
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              ችሎታዎችን በቀጥታ ከአካባቢያዊ ገበሬዎች ያግኙ። ከተጫኑ ገበሬዎች ጋር በቀጥታ ይገናኙ፣ �በቀጥታ የገበያ መረጃ ያግኙ።
+              ችሎታዎችን በቀጥታ ከአካባቢያዊ ገበሬዎች ያግኙ። ከተጫኑ ገበሬዎች ጋር በቀጥታ ይገናኙ፣ በቀጥታ የገበያ መረጃ ያግኙ።
             </p>
           </motion.div>
           <div className="flex flex-col lg:flex-row items-center gap-12">
@@ -544,32 +585,26 @@ const LandingPage = ({ darkMode }) => {
               viewport={{ once: true }}
               className="w-full lg:w-1/2 relative"
             >
-              <div className="relative max-w-md mx-auto">
-                <div className="absolute -top-6 -left-6 z-0 w-32 h-32 bg-green-400/20 rounded-full blur-xl"></div>
-                <div className="absolute -bottom-6 -right-6 z-0 w-32 h-32 bg-green-600/20 rounded-full blur-xl"></div>
-                <div className="relative z-10 flex gap-6 justify-center">
-                  <div className="flex flex-col gap-6">
-                    <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden">
-                      <div className="text-green-600 flex flex-col items-center p-4">
-                        <FaMobile className="text-4xl mb-3" />
-                        <span className="text-sm text-center">App Screenshot 1</span>
-                      </div>
-                    </div>
-                    <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden ml-8">
-                      <div className="text-green-600 flex flex-col items-center p-4">
-                        <FaShoppingCart className="text-4xl mb-3" />
-                        <span className="text-sm text-center">App Screenshot 3</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden mt-12">
-                    <div className="text-green-600 flex flex-col items-center p-4">
-                      <FaExchangeAlt className="text-4xl mb-3" />
-                      <span className="text-sm text-center">App Screenshot 2</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+<div className="relative max-w-md mx-auto">
+  <div className="absolute -top-6 -left-6 z-0 w-32 h-32 bg-green-400/20 rounded-full blur-xl"></div>
+  <div className="absolute -bottom-6 -right-6 z-0 w-32 h-32 bg-green-600/20 rounded-full blur-xl"></div>
+  <div className="relative z-10 flex gap-6 justify-center">
+    <div className="flex flex-col gap-6">
+      <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden">
+     
+        <img src="/mobilelogo.png" alt="App Screenshot 1" className="w-full h-full object-cover" />
+      </div>
+      <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden ml-8">
+
+        <img src="/mobileaccount.png" alt="App Screenshot 3" className="w-full h-full object-cover" />
+      </div>
+    </div>
+    <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden mt-12">
+
+      <img src="/mobilefarmer.png" alt="App Screenshot 2" className="w-full h-full object-cover" />
+    </div>
+  </div>
+</div>
             </motion.div>
 
             <motion.div
@@ -599,7 +634,7 @@ const LandingPage = ({ darkMode }) => {
                       <svg className="h-5 w-5 text-green-600 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      <span>ደህንነቱ የተጠበቀ የክፍያ ስርዓት</span>
+                      <span>ደህንነቱ የተጠበቀ የክፍያ �ስርዓት</span>
                     </li>
                   </ul>
                 </div>
@@ -610,7 +645,7 @@ const LandingPage = ({ darkMode }) => {
                     <motion.a
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
-                      href="#"
+                      href="/coming-soon"
                       className="flex items-center justify-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg shadow-md transition-all"
                     >
                       <FaApple className="text-xl mr-2" />
@@ -622,7 +657,7 @@ const LandingPage = ({ darkMode }) => {
                     <motion.a
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
-                      href="#"
+                      href="/coming-soon"
                       className="flex items-center justify-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg shadow-md transition-all"
                     >
                       <FaGooglePlay className="text-xl mr-2" />
@@ -725,14 +760,18 @@ const LandingPage = ({ darkMode }) => {
             >
               <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">መልእክት ይላኩልን</h3>
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">ስም</label>
                     <input
                       type="text"
                       id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                       placeholder="ስምዎን ያስገቡ"
+                      required
                     />
                   </div>
                   <div>
@@ -740,26 +779,50 @@ const LandingPage = ({ darkMode }) => {
                     <input
                       type="email"
                       id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                       placeholder="ኢሜይልዎን ያስገቡ"
+                      required
                     />
                   </div>
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">መልእክት</label>
                     <textarea
                       id="message"
+                      name="message"
                       rows="4"
+                      value={formData.message}
+                      onChange={handleInputChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                       placeholder="መልእክትዎን ያስገቡ"
+                      required
                     ></textarea>
                   </div>
+                  
+                  {/* Status messages */}
+                  {submitStatus === 'success' && (
+                    <div className="p-4 bg-green-100 text-green-700 rounded-lg">
+                      መልእክትዎ በትክክል ተልኳል! በቅርቡ እንገናኝዎታለን።
+                    </div>
+                  )}
+                  {submitStatus === 'error' && (
+                    <div className="p-4 bg-red-100 text-red-700 rounded-lg">
+                      ስህተት ተፈጥሯል። እባክዎ ቆይተው እንደገና ይሞክሩ።
+                    </div>
+                  )}
+                  
                   <motion.button
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     type="submit"
-                    className="w-full px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors"
+                    disabled={submitStatus === 'submitting'}
+                    className={`w-full px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors ${
+                      submitStatus === 'submitting' ? 'opacity-70 cursor-not-allowed' : ''
+                    }`}
                   >
-                    መልእክት ላክ
+                    {submitStatus === 'submitting' ? 'በመላክ ላይ...' : 'መልእክት ላክ'}
                   </motion.button>
                 </form>
               </div>
@@ -790,8 +853,8 @@ const LandingPage = ({ darkMode }) => {
                     </div>
                     <div>
                       <h4 className="font-medium text-gray-900">ኢሜይል</h4>
-                      <p className="text-gray-600">info@gebrelink.com</p>
-                      <p className="text-gray-600">support@gebrelink.com</p>
+                      <p className="text-gray-600">hanifasedhanni@gmail.com</p>
+                      <p className="text-gray-600">turabturab@gmailcom</p>
                     </div>
                   </div>
                   <div className="flex items-start">
