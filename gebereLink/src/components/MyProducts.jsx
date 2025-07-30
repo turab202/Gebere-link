@@ -18,7 +18,7 @@ const MyProducts = ({ darkMode }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/products');
+        const res = await axios.get('https://gebere-link-backend-1.onrender.com/api/products');
         setProducts(res.data);
       } catch (err) {
         console.error('Fetch error:', err);
@@ -29,7 +29,7 @@ const MyProducts = ({ darkMode }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/products/${id}`);
+      await axios.delete(`https://gebere-link-backend-1.onrender.com/api/products/${id}`);
       setProducts(products.filter(p => p._id !== id));
     } catch (err) {
       console.error('Delete failed:', err);
@@ -52,7 +52,7 @@ const MyProducts = ({ darkMode }) => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(`http://localhost:3000/api/products/${editingId}`, editForm);
+      const res = await axios.put(`https://gebere-link-backend-1.onrender.com/api/products/${editingId}`, editForm);
       setProducts(products.map(p => (p._id === editingId ? res.data : p)));
       setEditingId(null);
     } catch (err) {

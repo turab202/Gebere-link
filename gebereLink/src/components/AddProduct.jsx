@@ -28,58 +28,56 @@ const AddProduct = ({ darkMode }) => {
     }));
   };
 
-  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const form = new FormData();
+      form.append('name', formData.name);
+      form.append('category', formData.category);
+      form.append('available', formData.available);
+      form.append('price', formData.price);
+      form.append('per', formData.per);
+      form.append('description', formData.description);
+      if (formData.image) {
+        form.append('image', formData.image);
+      }
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const form = new FormData();
-    form.append('name', formData.name);
-    form.append('category', formData.category);
-    form.append('available', formData.available);
-    form.append('price', formData.price);
-    form.append('per', formData.per);
-    form.append('description', formData.description);
-    if (formData.image) {
-      form.append('image', formData.image);
-    }
+      // 1️⃣ Upload image first
+      let imagePath = '';
+      if (formData.image) {
+        const uploadRes = await axios.post('https://gebere-link-backend-1.onrender.com/api/upload', form, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        imagePath = uploadRes.data.imagePath;
+      }
 
-    // 1️⃣ Upload image first
-    let imagePath = '';
-    if (formData.image) {
-      const uploadRes = await axios.post('http://localhost:3000/api/upload', form, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+      // 2️⃣ Then send product info
+      const productData = {
+        name: formData.name,
+        category: formData.category,
+        available: formData.available,
+        price: formData.price,
+        per: formData.per,
+        description: formData.description,
+        image: imagePath
+      };
+
+      await axios.post('https://gebere-link-backend-1.onrender.com/api/products', productData);
+      alert("✅ Product added!");
+      setFormData({
+        name: "",
+        category: "",
+        available: "",
+        price: "",
+        per: "kg",
+        description: "",
+        image: null,
       });
-      imagePath = uploadRes.data.imagePath;
+    } catch (err) {
+      console.error("❌ Error adding product:", err);
+      alert("Error adding product");
     }
-
-    // 2️⃣ Then send product info
-    const productData = {
-      name: formData.name,
-      category: formData.category,
-      available: formData.available,
-      price: formData.price,
-      per: formData.per,
-      description: formData.description,
-      image: imagePath
-    };
-
-    await axios.post('http://localhost:3000/api/products', productData);
-    alert("✅ Product added!");
-    setFormData({
-      name: "",
-      category: "",
-      available: "",
-      price: "",
-      per: "kg",
-      description: "",
-      image: null,
-    });
-  } catch (err) {
-    console.error("❌ Error adding product:", err);
-    alert("Error adding product");
-  }
-};
+  };
 
   return (
     <div className={`p-6 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-white'}`}>
@@ -131,35 +129,35 @@ const handleSubmit = async (e) => {
           <div>
             <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Category</label>
             <div className="relative">
-            <select
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              className={`w-full rounded-lg px-3 py-2 border appearance-none cursor-pointer ${
-                darkMode 
-                  ? 'bg-gray-600 border-gray-500 text-gray-100 focus:ring-green-400 focus:border-green-400' 
-                  : 'bg-white border-gray-300 text-gray-700 focus:ring-green-500 focus:border-green-500'
-              }`}
-              required
-            >
-              <option value="">Select category</option>
-              <option value="Grains">Grains</option>
-              <option value="Vegetables">Vegetables</option>
-              <option value="Fruits">Fruits</option>
-              <option value="Spices">Spices</option>
-              <option value="Other">Other</option>
-            </select>
-            <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-              <svg 
-                className={`w-4 h-4 ${darkMode ? 'text-gray-300' : 'text-gray-500'}`} 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className={`w-full rounded-lg px-3 py-2 border appearance-none cursor-pointer ${
+                  darkMode 
+                    ? 'bg-gray-600 border-gray-500 text-gray-100 focus:ring-green-400 focus:border-green-400' 
+                    : 'bg-white border-gray-300 text-gray-700 focus:ring-green-500 focus:border-green-500'
+                }`}
+                required
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
+                <option value="">Select category</option>
+                <option value="Grains">Grains</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Fruits">Fruits</option>
+                <option value="Spices">Spices</option>
+                <option value="Other">Other</option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                <svg 
+                  className={`w-4 h-4 ${darkMode ? 'text-gray-300' : 'text-gray-500'}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
             </div>
-          </div>
           </div>
         </div>
         
@@ -199,32 +197,32 @@ const handleSubmit = async (e) => {
           <div>
             <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Per</label>
             <div className="relative">
-            <select
-              name="per"
-              value={formData.per}
-              onChange={handleChange}
-              className={`w-full rounded-lg px-3 py-2 border appearance-none cursor-pointer ${
-                darkMode 
-                  ? 'bg-gray-600 border-gray-500 text-gray-100 focus:ring-green-400 focus:border-green-400' 
-                  : 'bg-white border-gray-300 text-gray-700 focus:ring-green-500 focus:border-green-500'
-              }`}
-              required
-            >
-              <option value="kg">Kilogram (kg)</option>
-              <option value="quintal">Quintal</option>
-              <option value="piece">Piece</option>
-            </select>
-            <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-              <svg 
-                className={`w-4 h-4 ${darkMode ? 'text-gray-300' : 'text-gray-500'}`} 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
+              <select
+                name="per"
+                value={formData.per}
+                onChange={handleChange}
+                className={`w-full rounded-lg px-3 py-2 border appearance-none cursor-pointer ${
+                  darkMode 
+                    ? 'bg-gray-600 border-gray-500 text-gray-100 focus:ring-green-400 focus:border-green-400' 
+                    : 'bg-white border-gray-300 text-gray-700 focus:ring-green-500 focus:border-green-500'
+                }`}
+                required
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
+                <option value="kg">Kilogram (kg)</option>
+                <option value="quintal">Quintal</option>
+                <option value="piece">Piece</option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                <svg 
+                  className={`w-4 h-4 ${darkMode ? 'text-gray-300' : 'text-gray-500'}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
             </div>
-          </div>
           </div>
         </div>
         

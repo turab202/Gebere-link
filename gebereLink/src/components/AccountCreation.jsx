@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { FaEye, FaEyeSlash, FaUpload, FaUser, FaUserTie, FaUsers } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const AccountCreation = ({ darkMode, setUserData }) => {
   const [activeTab, setActiveTab] = useState('consumer');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
     username: '',
     name: '',
     password: '',
@@ -21,6 +24,8 @@ const AccountCreation = ({ darkMode, setUserData }) => {
     phone: ''
   });
   const [profileImage, setProfileImage] = useState(null);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -32,28 +37,80 @@ const AccountCreation = ({ darkMode, setUserData }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     
-    // Create user object based on form data
-    const newUser = {
-      username: formData.username,
-      firstName: formData.name.split(' ')[0] || '',
-      lastName: formData.name.split(' ')[1] || '',
-      email: formData.email,
-      phone: formData.phone,
-      role: activeTab,
-      farmingPractice: formData.farmingPractice,
-      description: formData.description,
-      avatar: profileImage ? URL.createObjectURL(profileImage) : null,
-      faydaId: formData.faydaId
-    };
-    
-    // Set the user data (in a real app, this would be an API call)
-    setUserData(newUser);
-    
-    // Navigate to home or dashboard
-    navigate('/home');
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords don't match!");
+      return;
+    }
+
+    // Validate required fields
+    if (!formData.firstName || !formData.lastName || !formData.username || 
+        !formData.password || !formData.faydaId || !formData.email || !formData.phone) {
+      setError("Please fill all required fields!");
+      return;
+    }
+
+    // Validate role-specific requirements
+    if (activeTab === 'consumer' && !formData.traderPermission) {
+      setError("Trader permission document is required!");
+      return;
+    }
+
+    if (activeTab === 'farmer') {
+      if (!formData.name || !formData.title || !formData.farmingPractice || !formData.document) {
+        setError("Please fill all required farmer fields!");
+        return;
+      }
+    }
+
+    try {
+      setLoading(true);
+      
+      // Create FormData for file uploads
+      const data = new FormData();
+      data.append('firstName', formData.firstName);
+      data.append('lastName', formData.lastName);
+      data.append('username', formData.username);
+      data.append('password', formData.password);
+      data.append('faydaId', formData.faydaId);
+      data.append('email', formData.email);
+      data.append('phone', formData.phone);
+      data.append('role', activeTab);
+      
+      if (profileImage) {
+        data.append('profileImage', profileImage);
+      }
+      
+      if (activeTab === 'consumer') {
+        data.append('traderPermission', formData.traderPermission);
+      } else if (activeTab === 'farmer') {
+        data.append('name', formData.name);
+        data.append('title', formData.title);
+        data.append('farmingPractice', formData.farmingPractice);
+        data.append('description', formData.description);
+        data.append('document', formData.document);
+      }
+
+      // Register user
+      const response = await axios.post('/api/auth/register', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      // If registration successful, set user data and redirect
+      setUserData(response.data.user);
+      localStorage.setItem('token', response.data.token);
+      navigate('/home');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -69,6 +126,14 @@ const AccountCreation = ({ darkMode, setUserData }) => {
         <h1 className={`text-2xl font-bold text-center mb-6 ${
           darkMode ? 'text-white' : 'text-gray-800'
         }`}>Create Account</h1>
+
+        {error && (
+          <div className={`mb-4 p-3 rounded-md ${
+            darkMode ? 'bg-red-900 text-red-200' : 'bg-red-100 text-red-800'
+          }`}>
+            {error}
+          </div>
+        )}
 
         <div className="flex justify-center mb-6">
           <button
@@ -101,7 +166,7 @@ const AccountCreation = ({ darkMode, setUserData }) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           {/* Profile Image Upload */}
           <div className="flex justify-center">
             <div className="relative">
@@ -139,13 +204,46 @@ const AccountCreation = ({ darkMode, setUserData }) => {
           <div>
             <label className={`block text-sm font-medium mb-1 ${
               darkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>First Name *</label>
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              className={`w-full px-3 py-2 border rounded-md ${
+                darkMode 
+                  ? 'bg-gray-700 border-gray-600 text-white' 
+                  : 'border-gray-300'
+              }`}
+            />
+          </div>
+
+          <div>
+            <label className={`block text-sm font-medium mb-1 ${
+              darkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>Last Name *</label>
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              className={`w-full px-3 py-2 border rounded-md ${
+                darkMode 
+                  ? 'bg-gray-700 border-gray-600 text-white' 
+                  : 'border-gray-300'
+              }`}
+            />
+          </div>
+
+          <div>
+            <label className={`block text-sm font-medium mb-1 ${
+              darkMode ? 'text-gray-300' : 'text-gray-700'
             }`}>Username *</label>
             <input
               type="text"
               name="username"
               value={formData.username}
               onChange={handleChange}
-              required
               className={`w-full px-3 py-2 border rounded-md ${
                 darkMode 
                   ? 'bg-gray-700 border-gray-600 text-white' 
@@ -164,7 +262,6 @@ const AccountCreation = ({ darkMode, setUserData }) => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                required
                 className={`w-full px-3 py-2 border rounded-md ${
                   darkMode 
                     ? 'bg-gray-700 border-gray-600 text-white' 
@@ -183,7 +280,6 @@ const AccountCreation = ({ darkMode, setUserData }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              required
               className={`w-full px-3 py-2 border rounded-md ${
                 darkMode 
                   ? 'bg-gray-700 border-gray-600 text-white' 
@@ -201,7 +297,6 @@ const AccountCreation = ({ darkMode, setUserData }) => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              required
               className={`w-full px-3 py-2 border rounded-md ${
                 darkMode 
                   ? 'bg-gray-700 border-gray-600 text-white' 
@@ -220,7 +315,7 @@ const AccountCreation = ({ darkMode, setUserData }) => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                required
+                minLength="6"
                 className={`w-full px-3 py-2 border rounded-md ${
                   darkMode 
                     ? 'bg-gray-700 border-gray-600 text-white' 
@@ -249,7 +344,7 @@ const AccountCreation = ({ darkMode, setUserData }) => {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                required
+                minLength="6"
                 className={`w-full px-3 py-2 border rounded-md ${
                   darkMode 
                     ? 'bg-gray-700 border-gray-600 text-white' 
@@ -268,7 +363,6 @@ const AccountCreation = ({ darkMode, setUserData }) => {
             </div>
           </div>
 
-          {/* Fayda ID for both consumer and farmer */}
           <div>
             <label className={`block text-sm font-medium mb-1 ${
               darkMode ? 'text-gray-300' : 'text-gray-700'
@@ -278,7 +372,6 @@ const AccountCreation = ({ darkMode, setUserData }) => {
               name="faydaId"
               value={formData.faydaId}
               onChange={handleChange}
-              required
               className={`w-full px-3 py-2 border rounded-md ${
                 darkMode 
                   ? 'bg-gray-700 border-gray-600 text-white' 
@@ -288,7 +381,6 @@ const AccountCreation = ({ darkMode, setUserData }) => {
             />
           </div>
 
-          {/* Consumer Specific Fields */}
           {activeTab === 'consumer' && (
             <div>
               <label className={`block text-sm font-medium mb-1 ${
@@ -306,13 +398,12 @@ const AccountCreation = ({ darkMode, setUserData }) => {
                   name="traderPermission"
                   onChange={handleChange}
                   className="hidden"
-                  required
+                  accept=".pdf,.doc,.docx,image/*"
                 />
               </label>
             </div>
           )}
 
-          {/* Farmer Specific Fields */}
           {activeTab === 'farmer' && (
             <>
               <div>
@@ -324,7 +415,6 @@ const AccountCreation = ({ darkMode, setUserData }) => {
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
-                  required
                   className={`w-full px-3 py-2 border rounded-md ${
                     darkMode 
                       ? 'bg-gray-700 border-gray-600 text-white' 
@@ -350,7 +440,7 @@ const AccountCreation = ({ darkMode, setUserData }) => {
                     name="document"
                     onChange={handleChange}
                     className="hidden"
-                    required
+                    accept=".pdf,.doc,.docx,image/*"
                   />
                 </label>
               </div>
@@ -364,7 +454,6 @@ const AccountCreation = ({ darkMode, setUserData }) => {
                   name="farmingPractice"
                   value={formData.farmingPractice}
                   onChange={handleChange}
-                  required
                   className={`w-full px-3 py-2 border rounded-md ${
                     darkMode 
                       ? 'bg-gray-700 border-gray-600 text-white' 
@@ -396,11 +485,20 @@ const AccountCreation = ({ darkMode, setUserData }) => {
 
           <button
             type="submit"
+            disabled={loading}
             className={`w-full py-2 px-4 rounded-md font-medium ${
               darkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-500 hover:bg-green-600'
-            } text-white`}
+            } text-white ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
           >
-            Register
+            {loading ? (
+              <span className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </span>
+            ) : 'Register'}
           </button>
 
           <div className={`text-center text-sm ${

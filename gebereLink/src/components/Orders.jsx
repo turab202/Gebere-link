@@ -1,23 +1,17 @@
-import { useState, useEffect } from 'react';
-import { FiClock, FiCheck, FiX, FiShoppingBag } from 'react-icons/fi';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Orders = ({ darkMode }) => {
   const [orders, setOrders] = useState([]);
-  const [activeTab, setActiveTab] = useState("all");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        setLoading(true);
-        const res = await axios.get('http://localhost:3000/api/orders');
-        setOrders(res.data);
-        setError("");
-      } catch (err) {
-        console.error("❌ Error fetching orders:", err);
-        setError("Failed to load orders");
+        const response = await axios.get('https://gebere-link-backend-1.onrender.com/api/orders');
+        setOrders(response.data);
+      } catch (error) {
+        console.error('Error fetching orders:', error);
       } finally {
         setLoading(false);
       }
@@ -26,110 +20,93 @@ const Orders = ({ darkMode }) => {
     fetchOrders();
   }, []);
 
-  const filteredOrders = orders.filter(order => {
-    if (activeTab === "all") return true;
-    return order.status === activeTab;
-  });
+  const handleStatusChange = async (orderId, newStatus) => {
+    try {
+      await axios.patch(`https://gebere-link-backend-1.onrender.com/api/orders/${orderId}`, {
+        status: newStatus,
+      });
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case "pending":
-        return <FiClock className="text-yellow-500" />;
-      case "accepted":
-        return <FiCheck className="text-green-500" />;
-      case "cancelled":
-        return <FiX className="text-red-500" />;
-      default:
-        return <FiShoppingBag className="text-gray-500" />;
+      setOrders(prev =>
+        prev.map(order =>
+          order._id === orderId ? { ...order, status: newStatus } : order
+        )
+      );
+    } catch (error) {
+      console.error('Error updating order status:', error);
     }
   };
 
+  if (loading) {
+    return (
+      <div className={`p-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+        Loading orders...
+      </div>
+    );
+  }
+
   return (
     <div className={`p-4 sm:p-6 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-white'}`}>
-      <h2 className={`text-xl sm:text-2xl font-bold mb-4 sm:mb-6 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>Orders</h2>
-      
-      <div className={`flex overflow-x-auto pb-2 mb-4 sm:mb-6 ${darkMode ? 'border-gray-600' : 'border-gray-200'}`}>
-        <div className="flex space-x-2 sm:space-x-0 sm:border-b sm:w-full">
-          <button
-            className={`px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base font-semibold cursor-pointer whitespace-nowrap ${
-              activeTab === "all" 
-                ? `sm:border-b-2 border-green-500 ${darkMode ? 'text-green-400' : 'text-green-600'}` 
-                : `${darkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`
-            }`}
-            onClick={() => setActiveTab("all")}
-          >
-            All Orders
-          </button>
-          <button
-            className={`px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base font-semibold cursor-pointer whitespace-nowrap ${
-              activeTab === "pending" 
-                ? `sm:border-b-2 border-green-500 ${darkMode ? 'text-green-400' : 'text-green-600'}` 
-                : `${darkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`
-            }`}
-            onClick={() => setActiveTab("pending")}
-          >
-            Pending
-          </button>
-          <button
-            className={`px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base font-semibold cursor-pointer whitespace-nowrap ${
-              activeTab === "accepted" 
-                ? `sm:border-b-2 border-green-500 ${darkMode ? 'text-green-400' : 'text-green-600'}` 
-                : `${darkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`
-            }`}
-            onClick={() => setActiveTab("accepted")}
-          >
-            Accepted
-          </button>
-          <button
-            className={`px-3 py-1 sm:px-4 sm:py-2 text-sm sm:text-base font-semibold cursor-pointer whitespace-nowrap ${
-              activeTab === "cancelled" 
-                ? `sm:border-b-2 border-green-500 ${darkMode ? 'text-green-400' : 'text-green-600'}` 
-                : `${darkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`
-            }`}
-            onClick={() => setActiveTab("cancelled")}
-          >
-            Cancelled
-          </button>
-        </div>
-      </div>
+      <h2 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+        Orders
+      </h2>
 
-      {/* Loader/Error */}
-      {loading ? (
-        <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Loading orders...</p>
-      ) : error ? (
-        <p className="text-red-500">{error}</p>
-      ) : filteredOrders.length === 0 ? (
-        <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>No orders found.</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-            <thead className={`${darkMode ? 'bg-gray-600' : 'bg-gray-100'}`}>
-              <tr>
-                {["Order ID", "Product", "Quantity", "Price", "Date", "Status"].map(header => (
-                  <th key={header} className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {header}
-                  </th>
-                ))}
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className={darkMode ? 'bg-gray-600' : 'bg-gray-100'}>
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Products</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+            </tr>
+          </thead>
+
+          <tbody className={darkMode ? 'bg-gray-700' : 'bg-white'}>
+            {orders.map(order => (
+              <tr key={order._id} className="border-t">
+                <td className={`px-6 py-4 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  {order.user?.name || "Unknown User"}
+                </td>
+                <td className={`px-6 py-4 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <ul className="list-disc pl-4">
+                    {order.items.map((item, idx) => (
+                      <li key={idx}>
+                        {item.product?.name || "Unknown Product"} (x{item.quantity}) - ETB {item.product?.price || 0}
+                      </li>
+                    ))}
+                  </ul>
+                </td>
+                <td className={`px-6 py-4 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  ETB {(order.totalPrice ?? 0).toFixed(2)}
+                </td>
+                <td className={`px-6 py-4 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  {order.status || "Pending"}
+                </td>
+                <td className="px-6 py-4 text-sm">
+                  <select
+                    className={`border rounded p-1 text-sm ${darkMode ? 'bg-gray-600 text-white' : 'bg-white text-gray-800'}`}
+                    value={order.status}
+                    onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Preparing">Preparing</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                </td>
               </tr>
-            </thead>
-            <tbody className={`divide-y ${darkMode ? 'divide-gray-600 bg-gray-700' : 'divide-gray-200 bg-white'}`}>
-              {filteredOrders.map(order => (
-                <tr key={order._id} className={`${darkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-50'}`}>
-                  <td className={`px-6 py-4 whitespace-nowrap text-sm font-semibold ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>#{order._id}</td>
-                  <td className={`px-6 py-4 whitespace-nowrap text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{order.product}</td>
-                  <td className={`px-6 py-4 whitespace-nowrap text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{order.quantity}</td>
-                  <td className={`px-6 py-4 whitespace-nowrap text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>ETB {order.price}</td>
-                  <td className={`px-6 py-4 whitespace-nowrap text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{new Date(order.date).toLocaleDateString()}</td>
-                  <td className={`px-6 py-4 whitespace-nowrap text-sm flex items-center ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    {getStatusIcon(order.status)}
-                    <span className="ml-1 capitalize">{order.status}</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+            ))}
+            {orders.length === 0 && (
+              <tr>
+                <td colSpan="5" className="px-6 py-4 text-center text-sm text-gray-500">
+                  No orders found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
