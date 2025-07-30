@@ -180,7 +180,7 @@ const LandingPage = ({ darkMode }) => {
         transition={{ type: 'spring', stiffness: 100 }}
         className="fixed w-full z-50 bg-white/80 backdrop-blur-md shadow-sm"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py- flex justify-between items-center">
           <motion.div
             initial={{ scale: 0.9 }}
             animate={{ scale: 1.0 }}
@@ -230,6 +230,7 @@ const LandingPage = ({ darkMode }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              onClick={handleGetStarted}
             >
               ይመዝገቡ
             </motion.button>
@@ -557,6 +558,7 @@ const LandingPage = ({ darkMode }) => {
       </section>
 
       {/* Mobile App Section */}
+      {/* Mobile App Section */}
       <section id="mobile" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -568,11 +570,11 @@ const LandingPage = ({ darkMode }) => {
           >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               <span className="bg-gradient-to-r from-green-600 to-green-400 bg-clip-text text-transparent">
-                Gebre-Link ሞባይል መተግበሪያ
+                Gebre-Link �ሞባይል መተግበሪያ
               </span>
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              ችሎታዎችን በቀጥታ ከአካባቢያዊ ገበሬዎች ያግኙ። ከተጫኑ ገበሬዎች ጋር በቀጥታ ይገናኙ፣ �በቀጥታ የገበያ መረጃ ያግኙ።
+              ችሎታዎችን በቀጥታ ከአካባቢያዊ ገበሬዎች ያግኙ። ከተጫኑ ገበሬዎች ጋር በቀጥታ ይገናኙ፣ በቀጥታ የገበያ መረጃ ያግኙ።
             </p>
           </motion.div>
           <div className="flex flex-col lg:flex-row items-center gap-12">
@@ -583,32 +585,26 @@ const LandingPage = ({ darkMode }) => {
               viewport={{ once: true }}
               className="w-full lg:w-1/2 relative"
             >
-              <div className="relative max-w-md mx-auto">
-                <div className="absolute -top-6 -left-6 z-0 w-32 h-32 bg-green-400/20 rounded-full blur-xl"></div>
-                <div className="absolute -bottom-6 -right-6 z-0 w-32 h-32 bg-green-600/20 rounded-full blur-xl"></div>
-                <div className="relative z-10 flex gap-6 justify-center">
-                  <div className="flex flex-col gap-6">
-                    <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden">
-                      <div className="text-green-600 flex flex-col items-center p-4">
-                        <FaMobile className="text-4xl mb-3" />
-                        <span className="text-sm text-center">App Screenshot 1</span>
-                      </div>
-                    </div>
-                    <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden ml-8">
-                      <div className="text-green-600 flex flex-col items-center p-4">
-                        <FaShoppingCart className="text-4xl mb-3" />
-                        <span className="text-sm text-center">App Screenshot 3</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden mt-12">
-                    <div className="text-green-600 flex flex-col items-center p-4">
-                      <FaExchangeAlt className="text-4xl mb-3" />
-                      <span className="text-sm text-center">App Screenshot 2</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+<div className="relative max-w-md mx-auto">
+  <div className="absolute -top-6 -left-6 z-0 w-32 h-32 bg-green-400/20 rounded-full blur-xl"></div>
+  <div className="absolute -bottom-6 -right-6 z-0 w-32 h-32 bg-green-600/20 rounded-full blur-xl"></div>
+  <div className="relative z-10 flex gap-6 justify-center">
+    <div className="flex flex-col gap-6">
+      <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden">
+     
+        <img src="/mobilelogo.png" alt="App Screenshot 1" className="w-full h-full object-cover" />
+      </div>
+      <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden ml-8">
+
+        <img src="/mobileaccount.png" alt="App Screenshot 3" className="w-full h-full object-cover" />
+      </div>
+    </div>
+    <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden mt-12">
+
+      <img src="/mobilefarmer.png" alt="App Screenshot 2" className="w-full h-full object-cover" />
+    </div>
+  </div>
+</div>
             </motion.div>
 
             <motion.div
@@ -638,7 +634,7 @@ const LandingPage = ({ darkMode }) => {
                       <svg className="h-5 w-5 text-green-600 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      <span>ደህንነቱ የተጠበቀ የክፍያ ስርዓት</span>
+                      <span>ደህንነቱ የተጠበቀ የክፍያ �ስርዓት</span>
                     </li>
                   </ul>
                 </div>
@@ -649,7 +645,7 @@ const LandingPage = ({ darkMode }) => {
                     <motion.a
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
-                      href="#"
+                      href="/coming-soon"
                       className="flex items-center justify-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg shadow-md transition-all"
                     >
                       <FaApple className="text-xl mr-2" />
@@ -661,7 +657,7 @@ const LandingPage = ({ darkMode }) => {
                     <motion.a
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
-                      href="#"
+                      href="/coming-soon"
                       className="flex items-center justify-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg shadow-md transition-all"
                     >
                       <FaGooglePlay className="text-xl mr-2" />
