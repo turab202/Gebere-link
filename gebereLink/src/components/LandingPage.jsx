@@ -50,12 +50,12 @@ const LandingPage = ({ darkMode }) => {
     {
       icon: <FaChartLine className="text-4xl text-green-600" />,
       title: "በቀጥታ የገበያ መረጃ",
-      description: "የዋጋ እና የፍላጎት አዝማሚያዎችን በቀጥታ ማወቅ በጥቅም ላይ ያለውን ውሳኔ ያስችላል።"
+      description: "የዋጋ እና የፍላጎት ኢኮኖሚያችንን በቀጥታ ማወቅ በጥቅም ላይ ሊውል የ ሚችል ውሳኔ ለመወሰን  ያስችላል።"
     },
     {
       icon: <FaTruck className="text-4xl text-green-600" />,
       title: "የሎጂስቲክስ ድጋፍ",
-      description: "ጥራት ያለው አቅርቦት እና የአቅርቦት ሰንሰለት ውጤታማነትን ለማሻሻል።"
+      description: "ጥራት ያለው አቅርቦት እና የአቅርቦት ሰንሰለት ስለሚፈጥር ውጤታማነትን ያሻሽላል።"
     },
     {
       icon: <FaMobile className="text-4xl text-green-600" />,
@@ -303,7 +303,7 @@ const LandingPage = ({ darkMode }) => {
                 variants={itemVariants}
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
               >
-                ቀጥተኛ ግንኙነት
+                ቀጥተኛ የግብርና ንግድ ግንኙነት
                 <span className="bg-gradient-to-r from-green-600 to-green-400 bg-clip-text text-transparent">
                   በገበሬዎች እና በነጋዴዎች
                 </span>{' '}
@@ -313,7 +313,7 @@ const LandingPage = ({ darkMode }) => {
                 variants={itemVariants}
                 className="text-lg text-gray-600 mb-8 max-w-lg"
               >
-                የእኛ ፈጠራ የግብርና ቴክኖሎጂ መድረክ ከተማ ውስጥ የሚገኙ ገበሬዎችን ከነጋዴዎች ጋር አብሮ በተሰራ ማረጋገጫና ሎጂስቲክስ ባለው ደህንነቱ የተጠበቀና ግልጽ የገበያ ቦታ በቀጥታ ያገናኛል።
+                የእኛ ፈጠራ የግብርና ቴክኖሎጂ መድረክ ከተማ ውስጥ የሚገኙ ገበሬዎችን ከነጋዴዎች ጋር አብሮ በተሰራ ማረጋገጫና ሎጂስቲክስ ባለው ደህንነቱ የተጠበቀና ግልጽ የገበያ መድረክ መፍጠር ነው።
               </motion.p>
               <motion.div
                 variants={itemVariants}
@@ -364,8 +364,8 @@ const LandingPage = ({ darkMode }) => {
                 <FaPhoneAlt className="text-white text-4xl" />
               </motion.div>
               <div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">7070 በነፃ መደወል ይችላሉ!</h3>
-                <p className="text-green-100 text-lg">ለማንኛውም ጥያቄ ወይም ድጋፍ በነፃ ይደውሉልን። 24/7 አገልግሎት</p>
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">7070 በነፃ ስልክ መስመራችን መደወል  ይችላሉ!</h3>
+                <p className="text-green-100 text-lg">ለማንኛውም ጥያቄ ወይም ድጋፍ በነፃ ይደውሉልን። 24/7 አገልግሎት እንሰጣለን! </p>
               </div>
             </div>
             <motion.button
@@ -396,7 +396,7 @@ const LandingPage = ({ darkMode }) => {
               </span>
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              የእኛ ፕላትፎርም ለገበሬዎች እና ለነጋዴዎች የተለያዩ ኃይለኛ ባህሪያትን ያቀርባል።
+              የእኛ ድህረ ገፅ  ለገበሬዎች እና ለነጋዴዎች የተለያዩ ወሳኝ የሆኑ መረጃዋችን ያቀርባል።
             </p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -438,7 +438,7 @@ const LandingPage = ({ darkMode }) => {
                 የእኛ ፕላትፎርም ገበሬዎች በቀጥታ ወደ ገበያ መዳረሻ እና በቀጥታ የገበያ መረጃ በመስጠት ኢኮኖሚያዊ እድሎቻቸውን በከፍተኛ ሁኔታ ያሳድጋል።
               </p>
               <p className="text-lg text-gray-700 mb-6">
-                የመካከለኛ ሰዎችን በማስወገድ ገበሬዎች ምርቶቻቸውን በተሻለ ዋጋ ሊሸጡ እና ተጨማሪ ትርፍ ሊያስቀምጡ ይችላሉ።
+                መካከለኛ ሰዎችን (ደላሎችን) በማስወገድ ገበሬዎች ምርቶቻቸውን እንዲሸጡና ተጨማሪ ትርፍ እንዲያገኙ ይረዳል።
               </p>
             </motion.div>
             <motion.div
@@ -570,7 +570,7 @@ const LandingPage = ({ darkMode }) => {
           >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               <span className="bg-gradient-to-r from-green-600 to-green-400 bg-clip-text text-transparent">
-                Gebre-Link �ሞባይል መተግበሪያ
+                Gebre-Link የሞባይል መተግበሪያ
               </span>
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -634,7 +634,7 @@ const LandingPage = ({ darkMode }) => {
                       <svg className="h-5 w-5 text-green-600 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      <span>ደህንነቱ የተጠበቀ የክፍያ �ስርዓት</span>
+                      <span>ደህንነቱ የተጠበቀ የክፍያ ስርዓት</span>
                     </li>
                   </ul>
                 </div>
