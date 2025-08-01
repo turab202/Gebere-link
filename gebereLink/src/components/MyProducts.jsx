@@ -384,7 +384,7 @@ const MyProducts = ({ darkMode }) => {
                         <FiEdit size={18} />
                       </button>
                       <button
-                        onClick={() => handleDelete(product.id)}
+                        onClick={() => handleDelete(product._id)}
                         className={`p-1 rounded-full ${darkMode ? 'text-red-400 hover:bg-gray-500' : 'text-red-600 hover:bg-gray-200'}`}
                       >
                         <FiTrash2 size={18} />
