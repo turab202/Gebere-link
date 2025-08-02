@@ -242,10 +242,10 @@ const MyProducts = ({ darkMode }) => {
         <div className="sm:hidden space-y-3">
           {products.map(product => (
             <div 
-              key={product.id}
+              key={product._id}
               className={`p-4 rounded-lg ${darkMode ? 'bg-gray-600' : 'bg-gray-50'} shadow-sm`}
             >
-              {editingId === product.id ? (
+              {editingId === product._id ? (
                 <div className="space-y-3">
                   <div>
                     <label className={`block text-sm font-medium mb-1 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Product Name</label>
