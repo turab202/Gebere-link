@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import {
   FaLeaf,
   FaShoppingCart,
@@ -28,7 +29,7 @@ import HeroImage from '../assets/hero1.jpg';
 import EconomyImage from '../assets/economy.jpg';
 import TrackterImage from '../assets/tracker.jpg';
 import TransparencyImage from '../assets/transparency.jpg';
-
+import ComingSoon from './ComingSoon';
 const LandingPage = ({ darkMode }) => {
   const [activeFAQ, setActiveFAQ] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -557,122 +558,124 @@ const LandingPage = ({ darkMode }) => {
         </div>
       </section>
 
-      {/* Mobile App Section */}
-      {/* Mobile App Section */}
-      <section id="mobile" className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              <span className="bg-gradient-to-r from-green-600 to-green-400 bg-clip-text text-transparent">
-                Gebre-Link የሞባይል መተግበሪያ
-              </span>
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              ችሎታዎችን በቀጥታ ከአካባቢያዊ ገበሬዎች ያግኙ። ከተጫኑ ገበሬዎች ጋር በቀጥታ ይገናኙ፣ በቀጥታ የገበያ መረጃ ያግኙ።
-            </p>
-          </motion.div>
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="w-full lg:w-1/2 relative"
-            >
-<div className="relative max-w-md mx-auto">
-  <div className="absolute -top-6 -left-6 z-0 w-32 h-32 bg-green-400/20 rounded-full blur-xl"></div>
-  <div className="absolute -bottom-6 -right-6 z-0 w-32 h-32 bg-green-600/20 rounded-full blur-xl"></div>
-  <div className="relative z-10 flex gap-6 justify-center">
-    <div className="flex flex-col gap-6">
-      <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden">
-     
-        <img src="/mobilelogo.png" alt="App Screenshot 1" className="w-full h-full object-cover" />
-      </div>
-      <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden ml-8">
+     {/* Mobile App Section */}
+<section id="mobile" className="py-16 bg-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+      className="text-center mb-16"
+    >
+      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <span className="bg-gradient-to-r from-green-600 to-green-400 bg-clip-text text-transparent">
+          Gebre-Link የሞባይል መተግበሪያ
+        </span>
+      </h2>
+      <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+        ችሎታዎችን በቀጥታ ከአካባቢያዊ ገበሬዎች ያግኙ። ከተጫኑ ገበሬዎች ጋር በቀጥታ ይገናኙ፣ በቀጥታ የገበያ መረጃ ያግኙ።
+      </p>
+    </motion.div>
 
-        <img src="/mobileaccount.png" alt="App Screenshot 3" className="w-full h-full object-cover" />
-      </div>
-    </div>
-    <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden mt-12">
-
-      <img src="/mobilefarmer.png" alt="App Screenshot 2" className="w-full h-full object-cover" />
-    </div>
-  </div>
-</div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="w-full lg:w-1/2"
-            >
-              <div className="space-y-6">
-                <div className="bg-green-50 p-6 rounded-xl border border-green-200">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">የመተግበሪያ ባህሪያት</h3>
-                  <ul className="space-y-3">
-                    <li className="flex items-start">
-                      <svg className="h-5 w-5 text-green-600 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>ቀጥተኛ የገበያ መዳረሻ ለገበሬዎች</span>
-                    </li>
-                    <li className="flex items-start">
-                      <svg className="h-5 w-5 text-green-600 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>በቀጥታ የገበያ ዋጋ እና የፍላጎት መረጃ</span>
-                    </li>
-                    <li className="flex items-start">
-                      <svg className="h-5 w-5 text-green-600 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span>ደህንነቱ የተጠበቀ የክፍያ ስርዓት</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="space-y-4">
-                  <h3 className="text-xl font-bold text-gray-900">አሁን ያውርዱ</h3>
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <motion.a
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                      href="/coming-soon"
-                      className="flex items-center justify-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg shadow-md transition-all"
-                    >
-                      <FaApple className="text-xl mr-2" />
-                      <div className="text-left">
-                        <p className="text-xs">Download on the</p>
-                        <p className="text-lg font-semibold">App Store</p>
-                      </div>
-                    </motion.a>
-                    <motion.a
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                      href="/coming-soon"
-                      className="flex items-center justify-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg shadow-md transition-all"
-                    >
-                      <FaGooglePlay className="text-xl mr-2" />
-                      <div className="text-left">
-                        <p className="text-xs">Get it on</p>
-                        <p className="text-lg font-semibold">Google Play</p>
-                      </div>
-                    </motion.a>
-                  </div>
-                </div>
+    <div className="flex flex-col lg:flex-row items-center gap-12">
+      {/* App Screenshots */}
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="w-full lg:w-1/2 relative"
+      >
+        <div className="relative max-w-md mx-auto">
+          <div className="absolute -top-6 -left-6 z-0 w-32 h-32 bg-green-400/20 rounded-full blur-xl"></div>
+          <div className="absolute -bottom-6 -right-6 z-0 w-32 h-32 bg-green-600/20 rounded-full blur-xl"></div>
+          <div className="relative z-10 flex gap-6 justify-center">
+            <div className="flex flex-col gap-6">
+              <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden">
+                <img src="/mobilelogo.png" alt="App Screenshot 1" className="w-full h-full object-cover" />
               </div>
-            </motion.div>
+              <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden ml-8">
+                <img src="/mobileaccount.png" alt="App Screenshot 3" className="w-full h-full object-cover" />
+              </div>
+            </div>
+            <div className="w-36 h-72 bg-white rounded-3xl shadow-lg border-2 border-green-200 flex items-center justify-center overflow-hidden mt-12">
+              <img src="/mobilefarmer.png" alt="App Screenshot 2" className="w-full h-full object-cover" />
+            </div>
           </div>
         </div>
-      </section>
+      </motion.div>
+
+      {/* App Features & Download Buttons */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="w-full lg:w-1/2"
+      >
+        <div className="space-y-6">
+          <div className="bg-green-50 p-6 rounded-xl border border-green-200">
+            <h3 className="text-xl font-bold text-gray-900 mb-3">የመተግበሪያ ባህሪያት</h3>
+            <ul className="space-y-3">
+              <li className="flex items-start">
+                <svg className="h-5 w-5 text-green-600 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span>ቀጥተኛ የገበያ መዳረሻ ለገበሬዎች</span>
+              </li>
+              <li className="flex items-start">
+                <svg className="h-5 w-5 text-green-600 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span>በቀጥታ የገበያ ዋጋ እና የፍላጎት መረጃ</span>
+              </li>
+              <li className="flex items-start">
+                <svg className="h-5 w-5 text-green-600 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span>ደህንነቱ የተጠበቀ የክፍያ ስርዓት</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-gray-900">አሁን ያውርዱ</h3>
+            <div className="flex flex-col sm:flex-row gap-4">
+              {/* App Store Button */}
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Link
+                  to="/coming-soon"
+                  className="flex items-center justify-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg shadow-md transition-all"
+                >
+                  <FaApple className="text-xl mr-2" />
+                  <div className="text-left">
+                    <p className="text-xs">Download on the</p>
+                    <p className="text-lg font-semibold">App Store</p>
+                  </div>
+                </Link>
+              </motion.div>
+
+              {/* Google Play Button */}
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Link
+                  to="/coming-soon"
+                  className="flex items-center justify-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg shadow-md transition-all"
+                >
+                  <FaGooglePlay className="text-xl mr-2" />
+                  <div className="text-left">
+                    <p className="text-xs">Get it on</p>
+                    <p className="text-lg font-semibold">Google Play</p>
+                  </div>
+                </Link>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  </div>
+</section>
 
       {/* FAQ Section */}
       <section id="faq" className="py-16 bg-green-50">

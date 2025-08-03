@@ -14,6 +14,7 @@ import MyProducts from "./components/MyProducts";
 import Cart from "./components/Cart";
 import Settings from "./components/Settings";
 import HomePage from "./components/HomePage";
+import ComingSoon from "./components/ComingSoon"
 
 import { ProductProvider } from "./context/ProductContext";
 import { CartProvider, useCart } from "./context/CartContext"; // ✅ New import
@@ -48,6 +49,7 @@ function AppContent({ darkMode, toggleDarkMode, isMobile, sidebarOpen, setSideba
                 <Route path="/cart" element={<Cart darkMode={darkMode} user={user} />} />
                 <Route path="/settings" element={<Settings darkMode={darkMode} user={user} />} />
                 <Route path="/create-account" element={<AccountCreation darkMode={darkMode} user={user} />} />
+                
                 <Route path="*" element={<Navigate to="/home" />} />
               </Routes>
             </div>
@@ -134,6 +136,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<LandingPage darkMode={darkMode} />} />
                 <Route path="/login" element={<AdminLogin darkMode={darkMode} onLogin={handleLogin} />} />
+                  <Route path="/coming-soon" element={<ComingSoon darkMode={darkMode} user={user} />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             )}
