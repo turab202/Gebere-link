@@ -436,7 +436,7 @@ const LandingPage = ({ darkMode }) => {
                 </span>
               </h2>
               <p className="text-lg text-gray-700 mb-6">
-                የእኛ ፕላትፎርም ገበሬዎች በቀጥታ ወደ ገበያ መዳረሻ እና በቀጥታ የገበያ መረጃ በመስጠት ኢኮኖሚያዊ እድሎቻቸውን በከፍተኛ ሁኔታ ያሳድጋል።
+                የእኛ ድህረ ገፅ ገበሬዎች በቀጥታ ወደ ገበያ መዳረሻ እና በቀጥታ የገበያ መረጃ በመስጠት ኢኮኖሚያዊ እድሎቻቸውን በከፍተኛ ሁኔታ ያሳድጋል።
               </p>
               <p className="text-lg text-gray-700 mb-6">
                 መካከለኛ ሰዎችን (ደላሎችን) በማስወገድ ገበሬዎች ምርቶቻቸውን እንዲሸጡና ተጨማሪ ትርፍ እንዲያገኙ ይረዳል።
@@ -495,7 +495,7 @@ const LandingPage = ({ darkMode }) => {
                 </span>
               </h2>
               <p className="text-lg text-gray-700 mb-6">
-                የእኛ ፕላትፎርም በገበሬዎች እና በሸማቾች መካከል የሚፈጠረውን እምነት በማጎልበት ግልጽ የሆኑ ግብይቶችን ያረጋግጣል።
+                የእኛ ድህረ ገፅ በገበሬዎች እና በሸማቾች መካከል የሚፈጠረውን እምነት በማጎልበት ግልጽ የሆኑ ግብይቶችን ያረጋግጣል።
               </p>
               <p className="text-lg text-gray-700 mb-6">
                 ገበሬዎች ዝርዝር መግለጫዎችን እና ማረጋገጫዎችን ማጋራት ይችላሉ፣ ምን ስለ የግብርና ልምዶቻቸው እና ስለ ምርት ጥራት ግንዛቤ ይሰጣል።
@@ -522,7 +522,7 @@ const LandingPage = ({ darkMode }) => {
               </span>
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              የእኛ ፕላትፎርም ባህላዊውን የምርት አቅርቦት ስርዓት በመቀየር፣ ምርት ከእርሻው እስከ ገበታ የሚደርስበትን ጉዞ ያቀላጥፋል።
+              የእኛ ድህረ ገፅ ባህላዊውን የምርት አቅርቦት ስርዓት በመቀየር፣ ምርት ከእርሻው እስከ ገበታ የሚደርስበትን ጉዞ ያቀላጥፋል።
             </p>
           </motion.div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -539,7 +539,7 @@ const LandingPage = ({ darkMode }) => {
                   className="rounded-lg shadow-lg w-full"
                 />
                 <div className="absolute -bottom-4 -right-4 bg-red-100 text-red-800 px-4 py-2 rounded-lg shadow-md">
-                ዘመናዊ ይዘት
+                ዘመናዊ ግብርና ይዘት
                 </div>
               </div>
             </motion.div>
@@ -892,7 +892,7 @@ const LandingPage = ({ darkMode }) => {
                 <span className="ml-2 text-2xl font-bold">Gebre-Link</span>
               </div>
               <p className="text-gray-400 mb-6">
-                የእኛ ፕላትፎርም ገበሬዎችን እና ነጋዴዎችን በቀጥታ የሚያገናኝ ሲሆን የተሻለ የግብርና ኢኮኖሚ ለመፍጠር ያለመ አላማ አለን።
+                የእኛ ድህረ ገፅ ገበሬዎችን እና ነጋዴዎችን በቀጥታ የሚያገናኝ ሲሆን የተሻለ የግብርና ኢኮኖሚ ለመፍጠር ያለመ አላማ አለን።
               </p>
             </motion.div>
             {[
