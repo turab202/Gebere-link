@@ -539,7 +539,7 @@ const LandingPage = ({ darkMode }) => {
                   className="rounded-lg shadow-lg w-full"
                 />
                 <div className="absolute -bottom-4 -right-4 bg-red-100 text-red-800 px-4 py-2 rounded-lg shadow-md">
-                  ባህላዊ ይዘት
+                ዘመናዊ ይዘት
                 </div>
               </div>
             </motion.div>
@@ -693,7 +693,7 @@ const LandingPage = ({ darkMode }) => {
               </span>
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              የቡድናችን ሰራተኞች ከተጠየቁ በጣም ብዙ ጥያቄዎች መካከል አንዳንዶቹን መረጡ።
+              የቡድናችን ሰራተኞች ከተጠየቁ በጣም ብዙ ጥያቄዎች መካከል አንዳንዶቹን ይመልከቱ።
             </p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
